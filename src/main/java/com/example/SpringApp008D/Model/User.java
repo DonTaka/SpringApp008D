@@ -42,12 +42,9 @@ public class User {
     @Override
     public String toString(){
         String output="";
-        output+=username+"\n";
-        output+=password+"\n";
-        output+=email+"\n";
-
+        output+= "Nombre de Usuario: "+username+"\n";
+        output+= "Contraseña: "+password+"\n";
+        output+= "Correo: "+email+"\n";
         return output;
     }
-    
-    
 }
