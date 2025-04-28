@@ -1,10 +1,12 @@
 package com.example.SpringApp008D.Repository;
 
 import com.example.SpringApp008D.Model.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UserRepository {
     private List<User> users = new ArrayList<>();
 
@@ -12,47 +14,54 @@ public class UserRepository {
 
     }
 
-    public String getUser(String username){
-        for(User user:users){
-            if(user.getUsername().equalsIgnoreCase(username)){
+    public String getUser(int id) {
+        for (User user : users) {
+            if (user.getId() == id) {
                 return user.toString();
             }
         }
         return "Usuario no encontrado";
     }
-    public void addUser(User user){
+
+    public String addUser(User user) {
         users.add(user);
-        System.out.println("Usuario agregado con exito");
+        return "Usuario agregado con exito";
     }
 
-    public void removeUser(String username){
-        for(User user:users){
-            if(user.getUsername().equalsIgnoreCase(username)){
+    public String removeUser(int id) {
+        for (User user : users) {
+            if (user.getId() == id) {
                 users.remove(user);
-                System.out.println("Usuario eliminado con exito");
-                break;
+                return "Usuario removido con exito";
             }
         }
-        System.out.println("Usuario no encontrado");
+        return "Usuario no encontrado";
     }
 
-    public void updateUser(User newUser){
-        for(User user:users){
-            if(user.getUsername().equalsIgnoreCase(newUser.getUsername())){
+    public String updateUser(User newUser) {
+        for (User user : users) {
+            if (user.getUsername().equalsIgnoreCase(newUser.getUsername())) {
                 //SET = Indice + objeto nuevo para reemplazar
                 int index = users.indexOf(user);
                 users.set(index, newUser);
-                System.out.println("Usuario actualizado con exito");
-                break;
+               return "Usuario actualizado con exito";
             }
         }
-        System.out.println("Usuario no encontrado");
+        return "Usuario no encontrado";
     }
-    public String getUsers(){
-        String output="";
-        for(User user:users){
-            output+=user.toString();
+
+    public String getUsers() {
+        String output = "";
+        for (User user : users) {
+            output += "Id: " + user.getId() + "\n";
+            output += "Username: " + user.getUsername() + "\n";
+            output += "Password: " + user.getPassword() + "\n";
+            output += "Email: " + user.getEmail() + "\n\n";
         }
-        return output;
+        if(output.isEmpty()){
+            return "No existen usuarios";
+        }else{
+            return output;
+        }
     }
 }
