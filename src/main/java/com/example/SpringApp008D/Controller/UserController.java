@@ -75,10 +75,10 @@ public class UserController {
                             schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<EntityModel<User>> addUser(@RequestBody User user) {
         userService.addUser(user);
         if (userService.getuser(user.getId()).isPresent()) {
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+            return new ResponseEntity<>(assembler.toModel(user), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -109,10 +109,10 @@ public class UserController {
             @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     @Parameter(description = "El ID del usuario", example = "123")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
+    public ResponseEntity<EntityModel<User>> updateUser(@PathVariable int id, @RequestBody User user) {
         if (userService.getuser(id).isPresent()) {
             userService.updateUser(id, user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(assembler.toModel(user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
